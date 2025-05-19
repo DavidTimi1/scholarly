@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Pic2Plate
 ## Overview
 Pic2Plate is a Next.js application that allows users to upload pictures of food or describeit and receive recipe suggestions!
@@ -145,3 +146,7 @@ Contributions are welcome! Please open an issue or submit a pull request.
 
 ## License
 This project is licensed under the MIT License.
+=======
+# scholarly
+Scholarly hackathon
+>>>>>>> e929755d4f9e6a589773b0fe33e4a2b5a280310c
