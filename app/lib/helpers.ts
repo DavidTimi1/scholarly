@@ -40,7 +40,7 @@ export async function getUserID(){
 
 
 
-export async function importExternalImage(url: string): Promise<string | null> {
+export async function importExternalDoc(url: string): Promise<string | null> {
     /**
      * Converts an image URL to Base64 with error handling.
      */

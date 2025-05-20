@@ -7,7 +7,7 @@ async function createTables(){
     console.log("Creating tables");
 
     await client.sql`
-        CREATE TABLE IF NOT EXISTS gradlee_sessions (
+        CREATE TABLE IF NOT EXISTS gradzee_sessions (
             id SERIAL PRIMARY KEY,
             user_id TEXT NOT NULL
         );
@@ -16,7 +16,7 @@ async function createTables(){
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
     
     await client.sql`
-        CREATE TABLE IF NOT EXISTS gradlee_convo (
+        CREATE TABLE IF NOT EXISTS gradzee_convo (
             id UUID PRIMARY KEY,
             user_id TEXT NOT NULL,
             recipe JSONB NOT NULL DEFAULT '{}'  -- Store JSON

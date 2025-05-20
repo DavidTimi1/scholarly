@@ -6,13 +6,13 @@ const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
 
 export async function getRecs(description) {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" })
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" })
 
     const convo = model.startChat({ history });
 
-    const prompt = `Generate detailed corrections for this Grad school application letter by me. 
+    const prompt = `Generate detailed suggestions for this Grad school application letter by me. 
         My text: ${description}
-        In the format Corrections: string[] }
+        In the format { suggestions: string[] }
         `;
 
     const generatedContent = await convo.sendMessage(prompt)

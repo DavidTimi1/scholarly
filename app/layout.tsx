@@ -1,26 +1,21 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "./ui/navbar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const openSans = Open_Sans({
+  variable: "--font-open-sans",
 });
 
 export const metadata: Metadata = {
-  title: "Pic2Plate",
-  description: "Take a picture of a meal or describe it and get the recipe instantly!",
+  title: "GradZee",
+  description: "Removing Barriers for every Graduate aiming higher!",
   openGraph: {
     type: "website",
     url: "https://pic2plate-tau.vercel.app",
     title: "Pic2Plate",
-    description: "Take a picture of a meal or describe it and get the recipe instantly!",
+    description: "Removing Barriers for every Graduate aiming higher!",
     siteName: "Pic2Plate",
     images: [{
       url: "https://pic2plate-tau.vercel.app/images/hero.webp",

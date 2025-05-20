@@ -3,27 +3,22 @@
 
 import fs from "fs/promises";
 import path from "path";
-import { getRecs } from "../lib/recipe";
-import { cleanJSON, getUserID, importExternalImage } from "../lib/helpers";
-import { randomUUID } from "crypto";
+import { getRecs } from "../lib/corrections";
+import { cleanJSON, getUserID, importExternalDoc } from "../lib/helpers";
 import { TEMPDIR } from "@/next.config";
-import { addSeshHistory } from "../lib/session";
 
-interface DetailsProps {
-    details: string,
+interface Draft {
+    text: string,
 }
 
 
-export default async function CorrectionAction({details}: DetailsProps){    
+export default async function CorrectionAction({text}: Draft){    
     // Retrieve user ID
-    const userID = await getUserID();
-    const convoID = randomUUID();
-
-    let reccommendations = [];
+    let corrections = {};
     
     try {
-        const ai_response = await getRecs(details);
-        reccommendations = cleanJSON(ai_response);
+        const ai_response = await getRecs(text);
+        corrections = cleanJSON(ai_response) ;
 
     } catch(err){
         console.log(err)
@@ -34,7 +29,7 @@ export default async function CorrectionAction({details}: DetailsProps){
     try {
         // await addSeshHistory(userID, convoID, recipe, imgSrc);
 
-        return { success: true, corrections: reccommendations };
+        return { success: true, data: corrections as string[] };
 
     } catch(err) {
         console.error(err)
@@ -50,7 +45,7 @@ async function convoHistory(tmpFile: string, imgSrc: string | null, prevJSON: st
 
     // check if file exists
     if (!localFileName && imgSrc) {
-        localFileName = await importExternalImage(imgSrc) ?? "";
+        localFileName = await importExternalDoc(imgSrc) ?? "";
 
         if (!localFileName)
             return [];
@@ -66,7 +61,7 @@ async function convoHistory(tmpFile: string, imgSrc: string | null, prevJSON: st
 
         } catch {
             // check if file exists
-            localFileName = await importExternalImage(imgSrc) ?? "";
+            localFileName = await importExternalDoc(imgSrc) ?? "";
         
             if (!localFileName)
               return [];

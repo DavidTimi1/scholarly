@@ -1,44 +1,34 @@
 import { UUID } from "crypto";
 
 
-export interface Ingredient {
+export interface User {
     name: string,
-    quantity: string,
-    price?: string
-}
+    program: 'PhD' | 'Masters' | 'Undergrad',
+    major: string,
+    email: string,
+    gradYear: number,
+    phone: string,
 
-export interface RecipeStep {
-    description: string, 
-    duration: string, 
-    notes?: string
-}
-
-
-export interface RecipeResult {
-    mealName: string, 
-    ingredients: Ingredient[], 
-    recipe: RecipeStep[] 
-}
-
-export interface HistoryItemData extends RecipeResult {
-    imgSrc?: string
-}
-
-export type Corrections = string[]
-
-export interface Scanned {
-    name: string,
-    ingredients: IngredientLocation
 }
 
 
-export interface ConvoItem {
+
+export interface Correction {
+    lineNumber: number,
+    type: 'grammar' | 'style' | 'clarity' | 'conciseness' | 'readability',
+    description: string,
+    suggestions: string[],
+}
+
+export interface ScannedCV {
+    url: string,
+    problems: string[],
+    suggestions: string[]
+}
+
+export interface Commit {
     id: UUID,
-    data: HistoryItemData
+    timestamp: string
+    description: string,
+    diff: Correction[]
 }
-
-
-export interface userSession {
-    history: ConvoItem[],
-}
-
