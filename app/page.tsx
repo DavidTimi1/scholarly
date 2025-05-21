@@ -2,21 +2,22 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white text-[#002746]">
-      <section className="bg-blue-600 text-white py-20 px-6 text-center">
-        <h1 className="text-5xl font-bold mb-4">Grad Zee</h1>
+    <main className="min-h-screen bg-white text-[#002746] text-center">
+      <section className="text-gray-900 py-20 px-6 text-center w-full min-h-[80lvh] flex flex-col items-center justify-center">
+        <h1 className="text-5xl font-bold mb-4">🎓GradZee</h1>
         <p className="text-xl max-w-2xl mx-auto">
           Simplifying graduate school applications with intelligent, accessible, and personalized AI support.
         </p>
       </section>
 
-      <section className="py-20 px-6 max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
+      <section className="py-20 px-6 max-w-6xl mx-auto flex flex-col bg-blue-700 md:flex-row items-center gap-12">
         <div className="flex-1 space-y-4">
-          <h2 className="text-4xl font-bold text-blue-700">AI-Powered Essay Refining</h2>
-          <p className="text-lg text-[#002746]">
-            As you write, Grad Zee provides embedded suggestions that improve clarity, coherence, and impact — no chat interface required. Real-time feedback helps you refine your Statement of Purpose or Personal Statement with ease.
+          <h2 className="text-4xl font-bold text-grey-200">AI-Powered Essay Refining</h2>
+          <p className="text-lg text-grey-300">
+            As you write, Grad Zee provides embedded suggestions that improve clarity, coherence, and impact — no chat interface required. <br />
+            Real-time feedback helps you refine your Statement of Purpose or Personal Statement with ease.
           </p>
-          <Link href="/essay-refiner" className="inline-block mt-4 bg-blue-700 text-white px-6 py-2 rounded hover:bg-blue-800">
+          <Link href="/essay-refiner" className="inline-block mt-4 text-blue-700 bg-white px-6 py-2 rounded hover:bg-grey-200">
             Try the Essay Refiner
           </Link>
         </div>

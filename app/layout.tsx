@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "./ui/navbar";
+import Footer from "./ui/footer";
 
 
 const openSans = Open_Sans({
@@ -44,9 +45,10 @@ export default function RootLayout({
       >
         <div className="w-full h-full">
           <Navbar />
-          <div className="w-full h-full py-8">
-          {children}
-        </div>
+          <div className="w-full h-full py-5">
+            {children}
+          </div>
+          <Footer />
         </div>
       </body>
     </html>

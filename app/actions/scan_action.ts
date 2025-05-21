@@ -6,9 +6,10 @@ import path from "path";
 import { findCorrections } from "../lib/scan";
 import { cleanJSON, importExternalDoc } from "../lib/helpers";
 import { TEMPDIR } from "@/next.config";
-import { Correction } from "../lib/definitions";
 
-
+type Mimetypes = {
+  [key: string]: string;
+}
 
 export async function deduceFromDoc(json: { docSrc: string, tmpSrc: string }) {
   const {docSrc, tmpSrc} = json;
@@ -16,7 +17,7 @@ export async function deduceFromDoc(json: { docSrc: string, tmpSrc: string }) {
   let localFileName = tmpSrc, doc_blob;
 
   do { 
-    let filePath = path.join(TEMPDIR, `uploads_${localFileName}`);
+    const filePath = path.join(TEMPDIR, `uploads_${localFileName}`);
 
     try {
       doc_blob = await fs.readFile(filePath);
@@ -30,18 +31,27 @@ export async function deduceFromDoc(json: { docSrc: string, tmpSrc: string }) {
     }
 
   } while (!doc_blob);
+  // detect mimetype
+  const ext = localFileName.split(".").pop() ?? 'txt';
+  const mimeTypes: Mimetypes = {
+    pdf: "application/pdf",
+    txt: "text/plain",
+    doc: "application/msword",
+    png: "image/png",
+    jpg: "image/jpeg",
+  };
 
-
-  const image_data = doc_blob.toString("base64");
+  const mimeType = mimeTypes[ext];
+  const documentData = doc_blob.toString("base64");
 
   try {
-    const ai_response = await findCorrections(image_data);
+    const ai_response = await findCorrections(documentData, mimeType);
     const scanned = cleanJSON(ai_response) as {corrections: string[]};
 
     return { success: true, data: scanned, docUrl: localFileName };
 
-  } catch (err) {
-    console.log(err)
+  } catch(err) {
+    console.error(err)
     return { success: false, error: "Error prompting AI model" };
   }
 }

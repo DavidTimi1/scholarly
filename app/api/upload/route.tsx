@@ -21,16 +21,20 @@ export async function POST(req: NextRequest) {
 
     // Move file to the desired location
     const ext = file.name.split('.').pop();
-    const newFileName = `${randomUUID()}${ext}`;
+    
+    const newFileName = `${randomUUID()}.${ext}`;
     const filePath = path.join(TEMPDIR, `uploads_${newFileName}`);
 
     await fs.writeFile(filePath, buffer);
     
-    const response = deduceFromDoc({ docSrc: '', tmpSrc: newFileName })
+    const response = await deduceFromDoc({ docSrc: '', tmpSrc: newFileName })
+
+    if (response.error) 
+      return NextResponse.json( response.error, { status: 400 });
 
     return NextResponse.json(response, { status: 200 });
 
   } catch (error) {
-    return NextResponse.json({ error: (error as Error).message }, { status: 500 });
+    return NextResponse.json((error as Error).message, { status: 500 });
   }
 }

@@ -7,10 +7,10 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>{
 
 
 export default function Button ({ children, className, deEmphasize = false, type = "button", ...props }: ButtonProps) {
-    const importanceStyles = deEmphasize? "border-pink-800 bg-transparent hover:bg-pink-800" : "border-transparent bg-pink-600 hover:bg-pink-900"
+    const importanceStyles = deEmphasize? "border-blue-700 text-grey-800 hover:bg-blue-800 bg-transparent" : "border-transparent text-white bg-blue-700 hover:bg-blue-900"
 
     return (
-        <button {...props} type={type} className={`rounded-full border border-solid transition-colors flex items-center justify-center text-white text-lg sm:text-base px-3 py-2 ${importanceStyles} ${className}`}>
+        <button {...props} type={type} className={`border border-solid transition-colors py-2 px-6 rounded flex items-center justify-center ${importanceStyles} ${className}`}>
             {children}
         </button>
     )

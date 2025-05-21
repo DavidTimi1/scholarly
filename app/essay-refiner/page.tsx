@@ -46,7 +46,6 @@ export default function EssayRefiner() {
 
 	async function refineEssay() {
 		setLoading(true);
-		// Simulated AI call - replace with actual GenAI API call
 		const response = await CorrectionAction({
 			text: draft,
 		});

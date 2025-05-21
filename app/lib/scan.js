@@ -9,17 +9,17 @@ const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
 
 
-export async function findCorrections(imgFile) {
+export async function findCorrections(docData, mimeType) {
     let prompt;
     
     const filePart = {
         inlineData: {
-            data: imgFile,
-            mimeType: "text/txt",
+            data: docData,
+            mimeType: mimeType,
         },
     };
 
-    if (imgFile){
+    if (docData){
         prompt = `As professional grad school application letter editor,
         please analyze this letter and provide detailed corrections.
         Start each good point with ✅ and each bad point with ❌.
@@ -27,8 +27,7 @@ export async function findCorrections(imgFile) {
 
     }
 
-    const convo = model.startChat();
-    const generatedContent = await convo.sendMessage([filePart, prompt]);
+    const generatedContent = await model.generateContent([filePart, prompt]);
 
     return generatedContent;
 }

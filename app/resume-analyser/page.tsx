@@ -2,12 +2,14 @@
 
 import axios from "axios";
 import { useState } from "react";
+import Button from "../ui/button";
 
 
 export default function ResumeAnalyzer() {
 	const [fileName, setFileName] = useState("");
 	const [feedback, setFeedback] = useState<string[]>([]);
 	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState<string | null>(null);
 
 	function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
 		const file = event.target.files?.[0];
@@ -15,15 +17,20 @@ export default function ResumeAnalyzer() {
 		if (file) {
 			setFileName(file.name);
 			setLoading(true);
+			setError(null);
 
 			const fd = new FormData();
 			fd.append('doc', file)
 
 			axios.post('/api/upload', fd)
-				.then(res => {
-					setFeedback(res.data.corrections)
-				})
-				.catch(console.error)
+			.then(res => {
+				setFeedback(res.data.corrections)
+			})
+			.catch(err => {
+				console.error(err);
+				setError(err.response.data);
+			})
+			.finally(() => { setLoading(false) })
 		}
 	}
 
@@ -31,16 +38,37 @@ export default function ResumeAnalyzer() {
 		<main className="py-16 px-6 max-w-4xl mx-auto">
 		  <h1 className="text-3xl font-semibold mb-4 text-center">CV/Resume Enhancement</h1>
 			<div className="space-y-6">
+				<p className="text-lg text-center">
+					Upload your CV or resume and get instant feedback on how to improve it.
+					<br />
+					We analyze your document and provide suggestions for better formatting, grammar, and content.
+				</p>
+				<p className="text-lg text-center text-blue-600">
+					Supported formats: PDF, DOC, DOCX, TXT
+				</p>
+
+				<p className="text-lg text-center text-red-600">{error}</p>
+
 				<input
+					id="file-upload"
 					type="file"
 					accept=".pdf,.doc,.docx"
 					onChange={handleFileUpload}
 					className="block w-full text-blue-700 border border-blue-300 rounded p-2 cursor-pointer hover:border-blue-500"
 				/>
 
-				{fileName && (
-					<p className="text-blue-700 font-medium">Analyzing: {fileName}</p>
-				)}
+				{
+					fileName && error? (
+						<p className="text-blue-700 font-medium">Analyzing: {fileName}</p>
+					) : (
+						<Button
+							type="button"
+							className="bg-blue-600 text-white hover:bg-blue-700"
+							onClick={retryAnalysis}
+						> Retry
+						</Button>
+					)
+				}
 
 				{loading ? (
 					<div className="text-blue-600 animate-pulse">Analyzing document...</div>
@@ -67,4 +95,9 @@ export default function ResumeAnalyzer() {
 			</div>
 		</main>
 	);
+
+	function retryAnalysis(){
+		const inputElement = document.getElementById("file-upload") as HTMLInputElement;
+		handleFileUpload({target: inputElement} as React.ChangeEvent<HTMLInputElement>);
+	}
 }
