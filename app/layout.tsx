@@ -44,9 +44,11 @@ export default function RootLayout({
         className={`${openSans.variable} antialiased`}
       >
         <div className="w-full h-full">
-          <Navbar />
-          <div className="w-full h-full py-5">
-            {children}
+          <div className="w-full  min-h-[100vh]">
+            <Navbar />
+            <div className="w-full py-5">
+              {children}
+            </div>
           </div>
           <Footer />
         </div>

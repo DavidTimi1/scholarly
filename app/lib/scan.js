@@ -21,9 +21,18 @@ export async function findCorrections(docData, mimeType) {
 
     if (docData){
         prompt = `As professional grad school application letter editor,
-        please analyze this letter and provide detailed corrections.
-        Start each good point with ✅ and each bad point with ❌.
-        In the format { corrections: string[] }`;
+        Analyze this letter and be sure to make corrections and suggestions (at least 1).
+        Indicate the degree of importance of each correction you are making (Critical, Bad or Regular),
+        You may even also indicate strong support of a part only if you think it is exceedingly great. (Awesome).
+        Note that importance of a correction may make lower ones unnecessary to point out so don't bother to indicate those.
+        type Correction = {
+            description: string;
+            degree: "critical" | "bad" | "warning" | "awesome";
+        };
+        In the format { corrections: Correction[] }
+        I want this in proper and exact json format.
+        If it is not strictly an application letter, you must point that out as a negative in the corrections.
+        If you think there are no corrections to be made, review it, it has to be perfect for a grad school application`;
 
     }
 

@@ -14,10 +14,11 @@ export interface User {
 
 
 export interface Correction {
-    lineNumber: number,
-    type: 'grammar' | 'style' | 'clarity' | 'conciseness' | 'readability',
+    // lineNumber: number,
+    // type: 'grammar' | 'style' | 'clarity' | 'conciseness' | 'readability',
     description: string,
-    suggestions: string[],
+    degree: 'critical' | 'warning' | 'bad' | 'awesome',
+    // suggestions: string[],
 }
 
 export interface ScannedCV {

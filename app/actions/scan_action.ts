@@ -6,6 +6,8 @@ import path from "path";
 import { findCorrections } from "../lib/scan";
 import { cleanJSON, importExternalDoc } from "../lib/helpers";
 import { TEMPDIR } from "@/next.config";
+import { console } from "inspector";
+import { Correction } from "../lib/definitions";
 
 type Mimetypes = {
   [key: string]: string;
@@ -46,9 +48,10 @@ export async function deduceFromDoc(json: { docSrc: string, tmpSrc: string }) {
 
   try {
     const ai_response = await findCorrections(documentData, mimeType);
-    const scanned = cleanJSON(ai_response) as {corrections: string[]};
+    console.log(ai_response.response.text());
+    const scanned = cleanJSON(ai_response) as {corrections: Correction[]};
 
-    return { success: true, data: scanned, docUrl: localFileName };
+    return { success: true, corrections: scanned.corrections, docUrl: localFileName };
 
   } catch(err) {
     console.error(err)

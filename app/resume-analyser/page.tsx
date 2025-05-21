@@ -3,11 +3,19 @@
 import axios from "axios";
 import { useState } from "react";
 import Button from "../ui/button";
+import { Correction } from "../lib/definitions";
 
+
+const classCodes = {
+	"critical": "bg-red-100 text-red-800",
+	"warning": "bg-yellow-100 text-yellow-800",
+	"awesome": "bg-green-100 text-green-800",
+	"bad": "bg-red-100 text-red-800",
+}
 
 export default function ResumeAnalyzer() {
 	const [fileName, setFileName] = useState("");
-	const [feedback, setFeedback] = useState<string[]>([]);
+	const [feedback, setFeedback] = useState<Correction[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
@@ -24,7 +32,8 @@ export default function ResumeAnalyzer() {
 
 			axios.post('/api/upload', fd)
 			.then(res => {
-				setFeedback(res.data.corrections)
+				console.log(res.data);
+				setFeedback(res.data.corrections as Correction[])
 			})
 			.catch(err => {
 				console.error(err);
@@ -59,14 +68,14 @@ export default function ResumeAnalyzer() {
 
 				{
 					fileName && error? (
-						<p className="text-blue-700 font-medium">Analyzing: {fileName}</p>
-					) : (
 						<Button
 							type="button"
 							className="bg-blue-600 text-white hover:bg-blue-700"
 							onClick={retryAnalysis}
 						> Retry
 						</Button>
+					): (
+						<p className="text-blue-700 font-medium">Analyzing: {fileName}</p>
 					)
 				}
 
@@ -79,14 +88,16 @@ export default function ResumeAnalyzer() {
 							{feedback.map((item, index) => (
 								<p
 									key={index}
-									className={`text-sm px-3 py-2 rounded-md ${item.startsWith("✅")
-											? "bg-green-100 text-green-800"
-											: item.startsWith("❌")
-												? "bg-red-100 text-red-800"
-												: "bg-yellow-100 text-yellow-800"
-										}`}
+									className={`text-sm flex items-center px-3 py-2 rounded-md bg-blue-200 border border-blue-400 text-gray-800`}
 								>
-									{item}
+									<span className="flex-1">
+										{item.description}
+										<span className={`font-semibold ${classCodes[item.degree]} rounded-xl px-2 py-1 text-xs ml-2`}>
+											{item.degree[0].toUpperCase() + item.degree.slice(1)}
+										</span>
+									</span>
+
+
 								</p>
 							))}
 						</div>
